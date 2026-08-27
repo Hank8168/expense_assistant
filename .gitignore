@@ -3,11 +3,30 @@
 
 # Python 暫存檔
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+
+# 測試與分析工具產物
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# 建置與套件產物
+build/
+dist/
+*.egg-info/
 
 # 虛擬環境
 .venv/
 venv/
+env/
 
 # VS Code 個人設定
 .vscode/
+.idea/
+
+# 作業系統產生的檔案
+.DS_Store
+Thumbs.db
