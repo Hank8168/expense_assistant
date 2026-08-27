@@ -1,0 +1,13 @@
+# API 金鑰與環境變數
+.env
+
+# Python 暫存檔
+__pycache__/
+*.pyc
+
+# 虛擬環境
+.venv/
+venv/
+
+# VS Code 個人設定
+.vscode/
