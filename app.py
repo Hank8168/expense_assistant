@@ -1,4 +1,4 @@
-"""個人消費分析助手的 Streamlit 介面。"""
+#個人消費分析助手的 Streamlit 介面
 
 from pathlib import Path
 import streamlit as st
