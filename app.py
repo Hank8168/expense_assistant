@@ -11,13 +11,13 @@ st.set_page_config(page_title="個人消費分析助手", page_icon="💰", layo
 st.title("💰 個人消費分析助手")
 st.write("上傳消費紀錄 CSV，即可查看總支出、分類支出與最大筆支出。")
 
-with SAMPLE_CSV_PATH.open("rb") as sample_file:
-    st.download_button(
-        "下載範例 CSV",
-        data=sample_file.read(),
-        file_name="sample_expenses.csv",
-        mime="text/csv",
-    )
+sample_csv_bytes = SAMPLE_CSV_PATH.read_text(encoding="utf-8-sig").encode("utf-8-sig")
+st.download_button(
+    "下載範例 CSV",
+    data=sample_csv_bytes,
+    file_name="sample_expenses.csv",
+    mime="text/csv",
+)
 
 uploaded_file = st.file_uploader("上傳 CSV", type=["csv"])
 
