@@ -1,10 +1,8 @@
 """個人消費分析助手的 Streamlit 介面。"""
 
 from pathlib import Path
-
 import streamlit as st
-
-from expense_analyzer import analyze_expenses, load_expenses
+from expense_analyzer import analyze_expenses, load_expenses #呼叫
 
 
 SAMPLE_CSV_PATH = Path(__file__).with_name("sample_expenses.csv")
@@ -25,8 +23,8 @@ uploaded_file = st.file_uploader("上傳 CSV", type=["csv"])
 
 if uploaded_file is not None:
     try:
-        expense_data = load_expenses(uploaded_file)
-        analysis = analyze_expenses(expense_data)
+        expense_data = load_expenses(uploaded_file) #讀取並驗證CSV
+        analysis = analyze_expenses(expense_data)#計算統計結果並存入analysis
     except ValueError as error:
         st.error(str(error))
     else:
@@ -35,19 +33,19 @@ if uploaded_file is not None:
         else:
             largest = analysis["largest"]
             total_column, largest_column = st.columns(2)
-            total_column.metric("總支出", f"NT$ {analysis['total']:,.2f}")
+            total_column.metric("總支出", f"NT$ {analysis['total']:,.2f}")#顯示總輸出
             largest_column.metric(
                 "最大筆支出",
-                f"NT$ {largest['amount']:,.2f}",
+                f"NT$ {largest['amount']:,.2f}",#顯示最大筆輸出
                 help=f"{largest['date']:%Y-%m-%d}｜{largest['description']}｜{largest['category']}",
             )
 
             st.subheader("分類支出")
-            category_expenses = analysis["by_category"].rename("支出金額")
-            st.bar_chart(category_expenses)
-            st.dataframe(category_expenses.to_frame(), use_container_width=True)
+            category_expenses = analysis["by_category"].rename("支出金額")#取出各分類支出
+            st.bar_chart(category_expenses)#長條圖
+            st.dataframe(category_expenses.to_frame(), use_container_width=True)#數字表格
 
             st.subheader("消費明細")
             display_data = expense_data.copy()
             display_data["date"] = display_data["date"].dt.strftime("%Y-%m-%d")
-            st.dataframe(display_data, use_container_width=True, hide_index=True)
+            st.dataframe(display_data, use_container_width=True, hide_index=True)#顯示消費明細

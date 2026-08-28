@@ -3,7 +3,7 @@ import unittest
 
 import pandas as pd
 
-from expense_analyzer import (
+from expense_analyzer import ( #匯入測試函式
     analyze_expenses,
     calculate_category_expenses,
     calculate_total_expense,
@@ -12,7 +12,7 @@ from expense_analyzer import (
 )
 
 
-class ExpenseAnalyzerTests(unittest.TestCase):
+class ExpenseAnalyzerTests(unittest.TestCase): #建立測試資料
     def setUp(self) -> None:
         self.expenses = pd.DataFrame(
             {
@@ -23,7 +23,7 @@ class ExpenseAnalyzerTests(unittest.TestCase):
             }
         )
 
-    def test_calculate_total_expense(self) -> None:
+    def test_calculate_total_expense(self) -> None: #測試總輸出
         self.assertEqual(calculate_total_expense(self.expenses), 450.0)
 
     def test_calculate_category_expenses(self) -> None:
