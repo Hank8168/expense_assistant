@@ -36,24 +36,24 @@ streamlit run app.py
 1. `GEMINI_API_KEY` 環境變數
 2. `.streamlit/secrets.toml` 中的 `GEMINI_API_KEY`
 
-PowerShell 環境變數範例（請自行填入 Key，不要提交到 Git）：
+PowerShell 環境變數範例：
 
 ```powershell
-$env:GEMINI_API_KEY = "你的 Gemini API Key"
+$env:GEMINI_API_KEY = "Gemini API Key"
 streamlit run app.py
 ```
 
 Streamlit secrets 格式：
 
 ```toml
-GEMINI_API_KEY = "你的 Gemini API Key"
+GEMINI_API_KEY = "Gemini API Key"
 ```
 
-`.env` 與 `.streamlit/secrets.toml` 都已加入 `.gitignore`。每個 Streamlit 工作階段最多可向 AI 提問 5 次，每題最多 200 字。若沒有 Key、免費額度用完或網路異常，既有的統計數字與圖表仍可正常使用。
+`.env` 與 `.streamlit/secrets.toml` 都已加入 `.gitignore`。每個Streamlit工作階段最多可向AI提問 5 次，每題最多 200字。若沒有Key、免費額度用完或網路異常，既有的統計數字與圖表仍可正常使用
 
 ## CSV 格式
 
-CSV 必須使用 UTF-8 編碼並包含以下欄位：
+CSV必須使用UTF-8編碼並包含以下欄位：
 
 | 欄位 | 說明 | 範例 |
 | --- | --- | --- |
