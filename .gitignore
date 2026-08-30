@@ -1,5 +1,6 @@
 # API 金鑰與環境變數
 .env
+.streamlit/secrets.toml
 
 # Python 暫存檔
 __pycache__/

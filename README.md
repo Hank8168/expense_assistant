@@ -1,6 +1,6 @@
 # 個人消費分析助手
 
-使用 Streamlit 與 pandas 製作的本機消費分析工具。第一階段不串接 LLM，也不使用任何付費 API。
+使用 Streamlit、pandas 與 Google Gemini 製作的個人消費分析工具。AI 問答使用 Gemini API 免費額度，不需要付費 API。
 
 ## 功能
 
@@ -9,6 +9,8 @@
 - 彙整各分類支出並顯示圖表
 - 顯示最大筆支出
 - 提供可下載的範例 CSV
+- 使用 Gemini `gemini-3.5-flash-lite` 與 Function Calling 回答中文問題
+- AI 的金額資料全部由本機 `expense_analyzer.py` 計算
 
 ## 環境需求
 
@@ -26,6 +28,28 @@ streamlit run app.py
 ```
 
 接著依終端機提示，用瀏覽器開啟 Streamlit 頁面。
+
+## 設定 Gemini API Key
+
+請先在 Google AI Studio 建立 Gemini API Key。程式只會從下列其中一處讀取 Key：
+
+1. `GEMINI_API_KEY` 環境變數
+2. `.streamlit/secrets.toml` 中的 `GEMINI_API_KEY`
+
+PowerShell 環境變數範例（請自行填入 Key，不要提交到 Git）：
+
+```powershell
+$env:GEMINI_API_KEY = "你的 Gemini API Key"
+streamlit run app.py
+```
+
+Streamlit secrets 格式：
+
+```toml
+GEMINI_API_KEY = "你的 Gemini API Key"
+```
+
+`.env` 與 `.streamlit/secrets.toml` 都已加入 `.gitignore`。每個 Streamlit 工作階段最多可向 AI 提問 5 次，每題最多 200 字。若沒有 Key、免費額度用完或網路異常，既有的統計數字與圖表仍可正常使用。
 
 ## CSV 格式
 

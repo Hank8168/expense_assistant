@@ -1,8 +1,15 @@
 #個人消費分析助手的 Streamlit 介面
 
+import os
 from pathlib import Path
 import streamlit as st
 from expense_analyzer import analyze_expenses, load_expenses #呼叫
+from llm_agent import (
+    GeminiAgentError,
+    MAX_QUESTION_LENGTH,
+    MissingAPIKeyError,
+    ask_expense_agent,
+)
 
 
 SAMPLE_CSV_PATH = Path(__file__).with_name("sample_expenses.csv")
@@ -49,3 +56,47 @@ if uploaded_file is not None:
             display_data = expense_data.copy()
             display_data["date"] = display_data["date"].dt.strftime("%Y-%m-%d")
             st.dataframe(display_data, use_container_width=True, hide_index=True)#顯示消費明細
+
+            st.subheader("AI 消費問答")
+            if "ai_question_count" not in st.session_state:
+                st.session_state.ai_question_count = 0
+
+            remaining_questions = 5 - st.session_state.ai_question_count
+            st.caption(f"本次工作階段剩餘提問次數：{remaining_questions} / 5")
+            question = st.text_input(
+                "輸入中文問題",
+                placeholder="例如：我的總支出是多少？哪個分類花最多？",
+                max_chars=MAX_QUESTION_LENGTH,
+                disabled=remaining_questions <= 0,
+            )
+
+            if st.button("詢問 AI", disabled=remaining_questions <= 0):
+                api_key = os.getenv("GEMINI_API_KEY")
+                if not api_key:
+                    try:
+                        api_key = st.secrets.get("GEMINI_API_KEY")
+                    except Exception:
+                        api_key = None
+
+                try:
+                    if not question.strip():
+                        raise ValueError("請輸入問題。")
+                    if not api_key:
+                        raise MissingAPIKeyError(
+                            "找不到 Gemini API Key，請設定 GEMINI_API_KEY 環境變數或 Streamlit secrets。"
+                        )
+                    st.session_state.ai_question_count += 1
+                    with st.spinner("Gemini 分析中…"):
+                        agent_result = ask_expense_agent(
+                            question, expense_data, api_key
+                        )
+                except (ValueError, GeminiAgentError) as error:
+                    st.warning(str(error))
+                else:
+                    st.markdown(agent_result.answer)
+                    with st.expander("查看本次呼叫的工具"):
+                        if agent_result.tool_names:
+                            for tool_name in agent_result.tool_names:
+                                st.code(tool_name)
+                        else:
+                            st.write("本次回答未呼叫分析工具。")
