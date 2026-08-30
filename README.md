@@ -1,6 +1,6 @@
 # 個人消費分析助手
 
-使用 Streamlit、pandas 與 Google Gemini 製作的個人消費分析工具。AI 問答使用 Gemini API 免費額度，不需要付費 API。
+使用 Streamlit、pandas 與 Google Gemini 製作的個人消費分析工具，AI 問答使用 Gemini API 免費額度
 
 ## 功能
 
@@ -27,23 +27,23 @@ python -m pip install -r requirements.txt
 streamlit run app.py
 ```
 
-接著依終端機提示，用瀏覽器開啟 Streamlit 頁面。
+接著依終端機提示，用瀏覽器開啟 Streamlit 頁面
 
 ## 設定 Gemini API Key
 
-請先在 Google AI Studio 建立 Gemini API Key。程式只會從下列其中一處讀取 Key：
+請先在Google AI Studio建立Gemini API Key程式只會從下列其中一處讀取Key：
 
-1. `GEMINI_API_KEY` 環境變數
-2. `.streamlit/secrets.toml` 中的 `GEMINI_API_KEY`
+1. `GEMINI_API_KEY`環境變數
+2. `.streamlit/secrets.toml`中的`GEMINI_API_KEY`
 
-PowerShell 環境變數範例：
+PowerShell環境變數範例：
 
 ```powershell
 $env:GEMINI_API_KEY = "Gemini API Key"
 streamlit run app.py
 ```
 
-Streamlit secrets 格式：
+Streamlit secrets格式：
 
 ```toml
 GEMINI_API_KEY = "Gemini API Key"
@@ -62,7 +62,7 @@ CSV必須使用UTF-8編碼並包含以下欄位：
 | `category` | 消費分類 | `餐飲` |
 | `amount` | 支出金額（數字） | `85` |
 
-可使用專案內的 `sample_expenses.csv`，或從網頁介面下載範例。
+可使用專案內的 `sample_expenses.csv`，或從網頁介面下載範例
 
 ## 執行測試
 
